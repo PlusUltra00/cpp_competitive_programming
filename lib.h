@@ -8,7 +8,7 @@
 #include <map>
 #include <cmath>
 
-#ifdef _GLIBCXX_VECTOR
+#ifdef _STL_VECTOR_H
 #if defined(_BASIC_STRING_H) && defined(_GLIBCXX_SSTREAM)
 	template<class T> std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
 		std::string s;
@@ -26,13 +26,10 @@
 			ostm << r << ' ';
 		return ostm;
 	}
-#endif // _GLIBCXX_VECTOR
+#endif // _STL_VECTOR_H
 
-#ifdef _GLIBCXX_ARRAY
 
-#endif // _GLIBCXX_ARRAY
-
-#ifdef _GLIBCXX_MAP
+#ifdef _STL_MAP_H
 	template<class Key, class T> std::istream& operator>>(std::istream& istm, std::map<Key, T>& mp) {
 		std::string s;
 		if (std::getline(istm, s)) {
@@ -52,7 +49,7 @@
 		}
 		return istm;
 	}
-#endif // _GLIBCXX_MAP
+#endif // _STL_MAP_H
 
 #ifdef _GLIBCXX_CMATH
 	// formula of area of triangle. Arguments are length of base and height.
@@ -89,12 +86,40 @@
 
 	// combination: n C r = n P r / r!
 	size_t combination(const size_t n, const size_t r) {
-		if (r > n - r) 
+		if (r > n - r)
 			return permutation(n, n - r) / factorial(n - r);
 		else
 			return permutation(n, r) / factorial(r);
 	}
 
-	
-	
+	// Euclid's algorithm. Return value is GCD of two integer.
+	long long euclid(long long a, long long b) {
+		while (a >= 1 && b >= 1) {
+			if (a < b)
+				b = b % a;
+			else
+				a = a % b;
+		}
+		if (a >= 1)
+			return a;
+		return b;
+	}
+
+	// Judge whether argument is prime.
+	bool isPrime(size_t value) {
+		for (size_t i = 2; i < value; ++i) {
+			if (value % i == 0)
+				return false;
+		}
+		return true;
+	}
+
+#ifdef _STL_VECTOR_H
+	template<class T> T average(const std::vector<T>& vec) {
+		T sum = 0;
+		for (const auto& r : vec)
+			sum += r;
+		return sum / vec.size();
+	}
+#endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
