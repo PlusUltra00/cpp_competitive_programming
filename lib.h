@@ -113,7 +113,6 @@
 		}
 		return true;
 	}
-
 #ifdef _STL_VECTOR_H
 	template<class T> T average(const std::vector<T>& vec) {
 		T sum = 0;
@@ -123,3 +122,58 @@
 	}
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
+#include <algorithm>
+#ifdef _GLIBCXX_ALGORITHM
+	template<class RandomAccessIterator, class Predicate = std::less<typename std::iterator_traits<RandomAccessIterator>::value_type>>
+	static inline bool iter_sorting_swap(RandomAccessIterator left, RandomAccessIterator right, Predicate pred = Predicate()) {
+		if (a > b) return iter_sorting_swap(b, a);
+		else       return pred(*right, *left) ? std::iter_swap(a, b), true : false;
+	}
+
+	template<class RandomAccessIterator> void bubble_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		for (auto it = first; it != last; ++it) {
+			for (auto j = last - 1; j < it; --j) {
+				iter_sorting_swap(j, j -1);
+			}
+		}
+	}
+
+	template<class RandomAccessIterator> void comb_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		auto size = last - first;
+		for (decltype(size) interval = size / 1.3; ; interval /= 1.3) {
+			for (auto it = first; i + interval < last; ++i) {
+				iter_sorting_swap(i, i + interval);
+			}
+			if (interval <= 1) break;
+		}
+	}
+
+	template<class RandomAccessIterator> void gnome_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		for (auto gnome = first + (last - first) / 2; gnome != last;) {
+			if (gnome == first) ++gnome;
+			iter_sorting_swap(gnome, gnome - 1) ? --gnome : ++gnome;
+		}
+	}
+
+	template<class RandomAccessIterator> void insertion_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		iter_sorting_swap(first, first + 1);
+		for (auto it = first + 1; i != last; ++i) {
+			for (auto jt = it; jt > first; --jt) {
+				if (!iter_sorting_swap(j, j - 1)) break;
+			}
+		}
+	}
+
+	template<class RandomAccessIterator> void merge_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		auto diff = last - first;
+		if (diff <= 1) return;
+		auto middle = first + diff / 2;
+		merge_sort(first, middle);
+		merge_sort(middle, last);
+		std::inplace_merge(first, middle, last);
+	}
+#endif // _GLIBCXX_ALGORITHM
