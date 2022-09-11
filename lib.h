@@ -105,12 +105,33 @@
 		}
 		return true;
 	}
+
+	int gcd(int a, int b) {
+		if (a % b == 0) return b;
+		else return gcd(b, a % b);
+	}
+
+	int lcm(int a, int b) {
+		return a * b / gcd(a, b);
+	}
 #ifdef _STL_VECTOR_H
 	template<class T> T average(const std::vector<T>& vec) {
 		T sum = 0;
 		for (const auto& r : vec)
 			sum += r;
 		return sum / vec.size();
+	}
+
+	int gcd(std::vector<int>& vec) {
+		for (size_t i = vec.size() - 2; i >= 0; --i)
+			vec[i] = gcd(vec[i], vec[i + 1]);
+		return vec.front();
+	}
+
+	int lcm(std::vector<int>& vec) {
+		for (size_t i = vec.size() - 2; i >= 0; --i)
+			vec[i] = lcm(vec[i], vec[i + 1]);
+		return vec.front();
 	}
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
