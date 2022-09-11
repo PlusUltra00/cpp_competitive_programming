@@ -7,6 +7,7 @@
 #include <array>
 #include <map>
 #include <cmath>
+#include <algorithm>
 
 #ifdef _STL_VECTOR_H
 #if defined(_BASIC_STRING_H) && defined(_GLIBCXX_SSTREAM)
@@ -40,15 +41,6 @@
 		}
 		return istm;
 	}
-
-	template<class T> std::istream& operator>><char, T>(std::istream& istm, std::map<char, T>& mp) {
-		std::string s;
-		if (std::getline(istm, s)) {
-			for (const auto& r : s)
-				mp.at(r)++;
-		}
-		return istm;
-	}
 #endif // _STL_MAP_H
 
 #ifdef _GLIBCXX_CMATH
@@ -64,7 +56,7 @@
 
 	// heron's formula. This function returns area of triangle. Arguments are length of three sides.
 	template<class T> double heron(T a, T b, T c) {
-		const auto (a + b + c) / 2;
+		const auto s =  (a + b + c) / 2;
 		return std::sqrt(s * (s - a) * (s - b) * (s - c));
 	}
 
@@ -122,18 +114,31 @@
 	}
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
-#include <algorithm>
 #ifdef _GLIBCXX_ALGORITHM
+	// utility for sort algorithm.
 	template<class RandomAccessIterator, class Predicate = std::less<typename std::iterator_traits<RandomAccessIterator>::value_type>>
-	static inline bool iter_sorting_swap(RandomAccessIterator left, RandomAccessIterator right, Predicate pred = Predicate()) {
-		if (a > b) return iter_sorting_swap(b, a);
-		else       return pred(*right, *left) ? std::iter_swap(a, b), true : false;
+	bool iter_sorting_swap(RandomAccessIterator left, RandomAccessIterator right, Predicate pred = Predicate()) {
+		if (left > right) return iter_sorting_swap(right, left);
+		else       return pred(*right, *left) ? std::iter_swap(left, right), true : false;
+	}
+
+	template<class RandomAccessIterator> void quick_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		RandomAccessIterator i = first, j = last - 1;
+		for (auto pivot = first; ; ++i, --j) {
+			while (*i < *pivot) ++i;
+			while (*pivot < *j) --j;
+			if (i >= j) break;
+			std::iter_swap(i, j);
+		}
+		quick_sort(first, i);
+		quick_sort(j + 1, last);
 	}
 
 	template<class RandomAccessIterator> void bubble_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		for (auto it = first; it != last; ++it) {
-			for (auto j = last - 1; j < it; --j) {
+			for (auto j = last - 1; j > it; --j) {
 				iter_sorting_swap(j, j -1);
 			}
 		}
@@ -143,8 +148,8 @@
 		if (last - first <= 1) return;
 		auto size = last - first;
 		for (decltype(size) interval = size / 1.3; ; interval /= 1.3) {
-			for (auto it = first; i + interval < last; ++i) {
-				iter_sorting_swap(i, i + interval);
+			for (auto it = first; it + interval < last; ++it) {
+				iter_sorting_swap(it, it + interval);
 			}
 			if (interval <= 1) break;
 		}
@@ -161,9 +166,9 @@
 	template<class RandomAccessIterator> void insertion_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		iter_sorting_swap(first, first + 1);
-		for (auto it = first + 1; i != last; ++i) {
+		for (auto it = first + 1; it != last; ++it) {
 			for (auto jt = it; jt > first; --jt) {
-				if (!iter_sorting_swap(j, j - 1)) break;
+				if (!iter_sorting_swap(jt, jt - 1)) break;
 			}
 		}
 	}
@@ -176,4 +181,28 @@
 		merge_sort(middle, last);
 		std::inplace_merge(first, middle, last);
 	}
+
+	template<class RandomAccessIterator> void selection_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		for (; first != last; ++first) {
+			auto min = std::min_element(first, last);
+			std::iter_swap(first, min);
+		}
+	}
+
+	template<class RandomAccessIterator> void shaker_sort(RandomAccessIterator first, RandomAccessIterator last) {
+		if (last - first <= 1) return;
+		for (RandomAccessIterator index; first != last;) {
+			for (auto it = first; it != last - 1; ++it)
+				if (iter_sorting_swap(it, it + 1)) index = it;
+			last = index;
+			if (first == last) break;
+			index = last;
+			for (auto it = last; it != first; --it)
+				if (iter_sorting_swap(it, it - 1)) index = it;
+			first = index;
+		}
+	}
+
+	
 #endif // _GLIBCXX_ALGORITHM
