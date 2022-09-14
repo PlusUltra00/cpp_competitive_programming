@@ -143,7 +143,8 @@
 		else       return pred(*right, *left) ? std::iter_swap(left, right), true : false;
 	}
 
-	template<class RandomAccessIterator> void quick_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void quick_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		RandomAccessIterator i = first, j = last - 1;
 		for (auto pivot = first; ; ++i, --j) {
@@ -156,7 +157,8 @@
 		quick_sort(j + 1, last);
 	}
 
-	template<class RandomAccessIterator> void bubble_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void bubble_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		for (auto it = first; it != last; ++it) {
 			for (auto j = last - 1; j > it; --j) {
@@ -165,7 +167,8 @@
 		}
 	}
 
-	template<class RandomAccessIterator> void comb_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void comb_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		auto size = last - first;
 		for (decltype(size) interval = size / 1.3; ; interval /= 1.3) {
@@ -176,7 +179,8 @@
 		}
 	}
 
-	template<class RandomAccessIterator> void gnome_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void gnome_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		for (auto gnome = first + (last - first) / 2; gnome != last;) {
 			if (gnome == first) ++gnome;
@@ -184,7 +188,8 @@
 		}
 	}
 
-	template<class RandomAccessIterator> void insertion_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void insertion_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		iter_sorting_swap(first, first + 1);
 		for (auto it = first + 1; it != last; ++it) {
@@ -194,7 +199,8 @@
 		}
 	}
 
-	template<class RandomAccessIterator> void merge_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void merge_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		auto diff = last - first;
 		if (diff <= 1) return;
 		auto middle = first + diff / 2;
@@ -211,7 +217,8 @@
 		}
 	}
 
-	template<class RandomAccessIterator> void shaker_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void shaker_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		for (RandomAccessIterator index; first != last;) {
 			for (auto it = first; it != last - 1; ++it)
@@ -224,6 +231,4 @@
 			first = index;
 		}
 	}
-
-	
 #endif // _GLIBCXX_ALGORITHM
