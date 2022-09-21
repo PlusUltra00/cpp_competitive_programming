@@ -11,7 +11,8 @@
 
 #ifdef _STL_VECTOR_H
 #if defined(_BASIC_STRING_H) && defined(_GLIBCXX_SSTREAM)
-	template<class T> std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
+	template<class T>
+	std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
 		std::string s;
 		if (std::getline(istm, s)) {
 			T tmp;
@@ -22,7 +23,8 @@
 		return istm;
 	}
 #endif // _BASIC_STRING_H && _GLIBCXX_SSTREAM
-	template<class T> std::ostream& operator<<(std::ostream& ostm, std::vector<T>& vec) {
+	template<class T>
+	std::ostream& operator<<(std::ostream& ostm, std::vector<T>& vec) {
 		for (const auto& r : vec)
 			ostm << r << ' ';
 		return ostm;
@@ -31,7 +33,8 @@
 
 
 #ifdef _STL_MAP_H
-	template<class Key, class T> std::istream& operator>>(std::istream& istm, std::map<Key, T>& mp) {
+	template<class Key, class T>
+	std::istream& operator>>(std::istream& istm, std::map<Key, T>& mp) {
 		std::string s;
 		if (std::getline(istm, s)) {
 			T tmp;
@@ -45,17 +48,20 @@
 
 #ifdef _GLIBCXX_CMATH
 	// formula of area of triangle. Arguments are length of base and height.
-	template<class T> double area_triangle(T base, T height) {
+	template<class T>
+	double area_triangle(T base, T height) {
 		return base * height / 2;
 	}
 
 	// formula of area of triangle. Arguments are length of two sides and angle(degree) between these two sides.
-	template<class T> double area_triangle(T a, T b, double deg) {
+	template<class T>
+	double area_triangle(T a, T b, double deg) {
 		return a * b * std::sin(deg * 180 / M_PI) / 2;
 	}
 
 	// heron's formula. This function returns area of triangle. Arguments are length of three sides.
-	template<class T> double heron(T a, T b, T c) {
+	template<class T>
+	double heron(T a, T b, T c) {
 		const auto s =  (a + b + c) / 2;
 		return std::sqrt(s * (s - a) * (s - b) * (s - c));
 	}
@@ -106,29 +112,30 @@
 		return true;
 	}
 
-	int gcd(int a, int b) {
+	size_t gcd(size_t a, size_t b) {
 		if (a % b == 0) return b;
 		else return gcd(b, a % b);
 	}
 
-	int lcm(int a, int b) {
+	size_t lcm(size_t a, size_t b) {
 		return a * b / gcd(a, b);
 	}
 #ifdef _STL_VECTOR_H
-	template<class T> T average(const std::vector<T>& vec) {
+	template<class T>
+	T average(const std::vector<T>& vec) {
 		T sum = 0;
 		for (const auto& r : vec)
 			sum += r;
 		return sum / vec.size();
 	}
 
-	int gcd(std::vector<int>& vec) {
+	size_t gcd(std::vector<size_t>& vec) {
 		for (size_t i = vec.size() - 2; i >= 0; --i)
 			vec[i] = gcd(vec[i], vec[i + 1]);
 		return vec.front();
 	}
 
-	int lcm(std::vector<int>& vec) {
+	size_t lcm(std::vector<size_t>& vec) {
 		for (size_t i = vec.size() - 2; i >= 0; --i)
 			vec[i] = lcm(vec[i], vec[i + 1]);
 		return vec.front();
@@ -137,10 +144,10 @@
 #endif // _GLIBCXX_CMATH
 #ifdef _GLIBCXX_ALGORITHM
 	// utility for sort algorithm.
-	template<class RandomAccessIterator, class Predicate = std::less<typename std::iterator_traits<RandomAccessIterator>::value_type>>
+	template<class RandomAccessIterator, class Predicate = std::less<class std::iterator_traits<RandomAccessIterator>::value_type>>
 	bool iter_sorting_swap(RandomAccessIterator left, RandomAccessIterator right, Predicate pred = Predicate()) {
 		if (left > right) return iter_sorting_swap(right, left);
-		else       return pred(*right, *left) ? std::iter_swap(left, right), true : false;
+		else return pred(*right, *left) ? std::iter_swap(left, right), true : false;
 	}
 
 	template<class RandomAccessIterator>
@@ -160,11 +167,9 @@
 	template<class RandomAccessIterator>
 	void bubble_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
-		for (auto it = first; it != last; ++it) {
-			for (auto j = last - 1; j > it; --j) {
-				iter_sorting_swap(j, j -1);
-			}
-		}
+		for (auto it = first; it != last; ++it)
+			for (auto j = last - 1; j > it; --j)
+				std::iter_swapj, j -1);
 	}
 
 	template<class RandomAccessIterator>
@@ -172,9 +177,8 @@
 		if (last - first <= 1) return;
 		auto size = last - first;
 		for (decltype(size) interval = size / 1.3; ; interval /= 1.3) {
-			for (auto it = first; it + interval < last; ++it) {
-				iter_sorting_swap(it, it + interval);
-			}
+			for (auto it = first; it + interval < last; ++it)
+				std::iter_swap(it, it + interval);
 			if (interval <= 1) break;
 		}
 	}
@@ -209,7 +213,8 @@
 		std::inplace_merge(first, middle, last);
 	}
 
-	template<class RandomAccessIterator> void selection_sort(RandomAccessIterator first, RandomAccessIterator last) {
+	template<class RandomAccessIterator>
+	void selection_sort(RandomAccessIterator first, RandomAccessIterator last) {
 		if (last - first <= 1) return;
 		for (; first != last; ++first) {
 			auto min = std::min_element(first, last);
