@@ -67,23 +67,23 @@
 	}
 
 	// factorial: n! = n * (n - 1) * ... * 1
-	size_t factorial(const size_t n) {
-		size_t result = 1;
+	uintmax_t factorial(const uintmax_t  n) {
+		uintmax_t result = 1;
 		for (size_t i = 1; i < n + 1; ++i)
 			result *= i;
 		return result;
 	}
 
 	// permutation: n P r = n * (n - 1) * ... * (n - r + 1)
-	size_t permutation(const size_t n, const size_t r) {
-		size_t result = 1;
+	uintmax_t permutation(const uintmax_t n, const uintmax_t r) {
+		uintmax_t result = 1;
 		for (size_t i = n; i > n - r; --i)
 			result *= i;
 		return result;
 	}
 
 	// combination: n C r = n P r / r!
-	size_t combination(const size_t n, const size_t r) {
+	uintmax_t combination(const uintmax_t n, const uintmax_t r) {
 		if (r > n - r)
 			return permutation(n, n - r) / factorial(n - r);
 		else
@@ -91,7 +91,7 @@
 	}
 
 	// Euclid's algorithm. Return value is GCD of two integer.
-	long long euclid(long long a, long long b) {
+	intmax_t euclid(intmax_t a, intmax_t b) {
 		while (a >= 1 && b >= 1) {
 			if (a < b)
 				b = b % a;
@@ -104,20 +104,20 @@
 	}
 
 	// Judge whether argument is prime.
-	bool isPrime(size_t value) {
-		for (size_t i = 2; i < value; ++i) {
+	bool isPrime(uintmax_t value) {
+		for (uintmax_t i = 2; i < value; ++i) {
 			if (value % i == 0)
 				return false;
 		}
 		return true;
 	}
 
-	size_t gcd(size_t a, size_t b) {
+	uintmax_t gcd(uintmax_t a, uintmax_t b) {
 		if (a % b == 0) return b;
 		else return gcd(b, a % b);
 	}
 
-	size_t lcm(size_t a, size_t b) {
+	uintmax_t lcm(uintmax_t a, uintmax_t b) {
 		return a * b / gcd(a, b);
 	}
 #ifdef _STL_VECTOR_H
@@ -129,16 +129,18 @@
 		return sum / vec.size();
 	}
 
-	size_t gcd(std::vector<size_t>& vec) {
-		for (size_t i = vec.size() - 2; i >= 0; --i)
-			vec[i] = gcd(vec[i], vec[i + 1]);
+	uintmax_t gcd(std::vector<uintmax_t>& vec) {
+		uintmax_t result = vec.front();
+		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
+			result = gcd(result, vec[i + 1]);
 		return vec.front();
 	}
 
-	size_t lcm(std::vector<size_t>& vec) {
-		for (size_t i = vec.size() - 2; i >= 0; --i)
-			vec[i] = lcm(vec[i], vec[i + 1]);
-		return vec.front();
+	uintmax_t lcm(std::vector<uintmax_t>& vec) {
+		uintmax_t result = vec.front();
+		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
+			result = lcm(result, vec[i + 1]);
+		return result;
 	}
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
