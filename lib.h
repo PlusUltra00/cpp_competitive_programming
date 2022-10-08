@@ -55,15 +55,9 @@
 	}
 
 	// factorial: n! = n * (n - 1) * ... * 1
-<<<<<<< HEAD
-	uintmax_t factorial(const uintmax_t  n) {
-		uintmax_t result = 1;
-		for (size_t i = 1; i < n + 1; ++i)
-=======
 	uintmax_t factorial(const uintmax_t n) {
 		uintmax_t result = 1;
 		for (uintmax_t i = 1; i < n + 1; ++i)
->>>>>>> f69afb2 (change some integer type)
 			result *= i;
 		return result;
 	}
@@ -71,11 +65,7 @@
 	// permutation: n P r = n * (n - 1) * ... * (n - r + 1)
 	uintmax_t permutation(const uintmax_t n, const uintmax_t r) {
 		uintmax_t result = 1;
-<<<<<<< HEAD
-		for (size_t i = n; i > n - r; --i)
-=======
 		for (uintmax_t i = n; i > n - r; --i)
->>>>>>> f69afb2 (change some integer type)
 			result *= i;
 		return result;
 	}
@@ -128,28 +118,17 @@
 	}
 
 	uintmax_t gcd(std::vector<uintmax_t>& vec) {
-<<<<<<< HEAD
 		uintmax_t result = vec.front();
 		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
 			result = gcd(result, vec[i + 1]);
-=======
-		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
-			vec[i] = gcd(vec[i], vec[i + 1]);
->>>>>>> f69afb2 (change some integer type)
 		return vec.front();
 	}
 
 	uintmax_t lcm(std::vector<uintmax_t>& vec) {
-<<<<<<< HEAD
 		uintmax_t result = vec.front();
 		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
 			result = lcm(result, vec[i + 1]);
 		return result;
-=======
-		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
-			vec[i] = lcm(vec[i], vec[i + 1]);
-		return vec.front();
->>>>>>> f69afb2 (change some integer type)
 	}
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
