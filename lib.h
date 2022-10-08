@@ -1,14 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include <deque>
-#include <array>
-#include <map>
-#include <cmath>
-#include <algorithm>
-
 #ifdef _STL_VECTOR_H
 #if defined(_BASIC_STRING_H) && defined(_GLIBCXX_SSTREAM)
 	template<class T>
@@ -30,7 +19,6 @@
 		return ostm;
 	}
 #endif // _STL_VECTOR_H
-
 
 #ifdef _STL_MAP_H
 	template<class Key, class T>
@@ -67,9 +55,15 @@
 	}
 
 	// factorial: n! = n * (n - 1) * ... * 1
+<<<<<<< HEAD
 	uintmax_t factorial(const uintmax_t  n) {
 		uintmax_t result = 1;
 		for (size_t i = 1; i < n + 1; ++i)
+=======
+	uintmax_t factorial(const uintmax_t n) {
+		uintmax_t result = 1;
+		for (uintmax_t i = 1; i < n + 1; ++i)
+>>>>>>> f69afb2 (change some integer type)
 			result *= i;
 		return result;
 	}
@@ -77,7 +71,11 @@
 	// permutation: n P r = n * (n - 1) * ... * (n - r + 1)
 	uintmax_t permutation(const uintmax_t n, const uintmax_t r) {
 		uintmax_t result = 1;
+<<<<<<< HEAD
 		for (size_t i = n; i > n - r; --i)
+=======
+		for (uintmax_t i = n; i > n - r; --i)
+>>>>>>> f69afb2 (change some integer type)
 			result *= i;
 		return result;
 	}
@@ -130,21 +128,35 @@
 	}
 
 	uintmax_t gcd(std::vector<uintmax_t>& vec) {
+<<<<<<< HEAD
 		uintmax_t result = vec.front();
 		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
 			result = gcd(result, vec[i + 1]);
+=======
+		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
+			vec[i] = gcd(vec[i], vec[i + 1]);
+>>>>>>> f69afb2 (change some integer type)
 		return vec.front();
 	}
 
 	uintmax_t lcm(std::vector<uintmax_t>& vec) {
+<<<<<<< HEAD
 		uintmax_t result = vec.front();
 		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
 			result = lcm(result, vec[i + 1]);
 		return result;
+=======
+		for (uintmax_t i = vec.size() - 2; i >= 0; --i)
+			vec[i] = lcm(vec[i], vec[i + 1]);
+		return vec.front();
+>>>>>>> f69afb2 (change some integer type)
 	}
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
-#ifdef _GLIBCXX_ALGORITHM
+
+#include <algorithm>
+#include <iterator>
+#if defined(_GLIBCXX_ALGORITHM) && defined(_GLIBCXX_ITERATOR)
 	// utility for sort algorithm.
 	template<class RandomAccessIterator, class Predicate = std::less<class std::iterator_traits<RandomAccessIterator>::value_type>>
 	bool iter_sorting_swap(RandomAccessIterator left, RandomAccessIterator right, Predicate pred = Predicate()) {
@@ -160,7 +172,7 @@
 			while (*i < *pivot) ++i;
 			while (*pivot < *j) --j;
 			if (i >= j) break;
-			std::iter_swap(i, j);
+			iter_sorting_swap(i, j);
 		}
 		quick_sort(first, i);
 		quick_sort(j + 1, last);
@@ -171,7 +183,7 @@
 		if (last - first <= 1) return;
 		for (auto it = first; it != last; ++it)
 			for (auto j = last - 1; j > it; --j)
-				std::iter_swapj, j -1);
+				iter_sorting_swap(j, j - 1);
 	}
 
 	template<class RandomAccessIterator>
@@ -180,7 +192,7 @@
 		auto size = last - first;
 		for (decltype(size) interval = size / 1.3; ; interval /= 1.3) {
 			for (auto it = first; it + interval < last; ++it)
-				std::iter_swap(it, it + interval);
+				iter_sorting_swap(it, it + interval);
 			if (interval <= 1) break;
 		}
 	}
@@ -220,7 +232,7 @@
 		if (last - first <= 1) return;
 		for (; first != last; ++first) {
 			auto min = std::min_element(first, last);
-			std::iter_swap(first, min);
+			iter_sorting_swap(first, min);
 		}
 	}
 
@@ -238,4 +250,4 @@
 			first = index;
 		}
 	}
-#endif // _GLIBCXX_ALGORITHM
+#endif // _GLIBCXX_ALGORITHM && _GLIBCXX_ITERATOR
