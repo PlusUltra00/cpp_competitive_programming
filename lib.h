@@ -89,7 +89,7 @@
 	}
 
 	// Euclid's algorithm. Return value is GCD of two integer.
-	intmax_t euclid(intmax_t a, intmax_t b) {
+	uintmax_t euclid(uintmax_t a, uintmax_t b) {
 		while (a >= 1 && b >= 1) {
 			if (a < b)
 				b = b % a;
