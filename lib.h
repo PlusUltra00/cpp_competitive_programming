@@ -92,7 +92,7 @@
 	}
 
 	// Judge whether argument is prime.
-	bool isPrime(uintmax_t value) {
+	bool is_prime(uintmax_t value) {
 		for (uintmax_t i = 2; i < value; ++i) {
 			if (value % i == 0)
 				return false;
