@@ -6,9 +6,17 @@
 #include <cmath>
 #include <string>
 #include <sstream>
+#include <concepts>
+#include <type_traits>
+
+template<class T, class U>
+concept Number = requires(T& t, U& u) {
+	{t + u} -> std::common_with<T, U>;
+}
 
 #ifdef _STL_VECTOR_H
 #if defined(_BASIC_STRING_H) && defined(_GLIBCXX_SSTREAM)
+
 	template<class T>
 	std::istream& operator>>(std::istream& istm, std::vector<T>& vec) {
 		std::string s;
@@ -64,7 +72,8 @@
 	}
 
 	// factorial: n! = n * (n - 1) * ... * 1
-	uintmax_t factorial(const uintmax_t n) {
+	template<std::unsigned_integral T>
+	uintmax_t factorial(T n) {
 		uintmax_t result = 1;
 		for (uintmax_t i = 1; i < n + 1; ++i)
 			result *= i;
@@ -72,7 +81,7 @@
 	}
 
 	// permutation: n P r = n * (n - 1) * ... * (n - r + 1)
-	uintmax_t permutation(const uintmax_t n, const uintmax_t r) {
+	uintmax_t permutation(T n, T r) {
 		uintmax_t result = 1;
 		for (uintmax_t i = n; i > n - r; --i)
 			result *= i;
@@ -80,7 +89,8 @@
 	}
 
 	// combination: n C r = n P r / r!
-	uintmax_t combination(const uintmax_t n, const uintmax_t r) {
+	template<std::unsigned_integral T>
+	uintmax_t combination(T n, T r) {
 		if (r > n - r)
 			return permutation(n, n - r) / factorial(n - r);
 		else
@@ -88,7 +98,8 @@
 	}
 
 	// Euclid's algorithm. Return value is GCD of two integer.
-	uintmax_t euclid(uintmax_t a, uintmax_t b) {
+	template<std::unsigned_integral T>
+	T euclid(T a, T b) {
 		while (a >= 1 && b >= 1) {
 			if (a < b)
 				b = b % a;
@@ -109,12 +120,14 @@
 		return true;
 	}
 
-	uintmax_t gcd(uintmax_t a, uintmax_t b) {
+	template<std::unsigned_integral T>
+	T gcd(T a, T b) {
 		if (a % b == 0) return b;
 		else return gcd(b, a % b);
 	}
 
-	uintmax_t lcm(uintmax_t a, uintmax_t b) {
+	template<std::unsigned_integral T>
+	T lcm(T a, T b) {
 		return a * b / gcd(a, b);
 	}
 #ifdef _STL_VECTOR_H
