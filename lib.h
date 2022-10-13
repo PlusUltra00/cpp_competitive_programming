@@ -1,3 +1,12 @@
+#include <map>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <sstream>
+
 #ifdef _STL_VECTOR_H
 #if defined(_BASIC_STRING_H) && defined(_GLIBCXX_SSTREAM)
 	template<class T>
@@ -133,8 +142,6 @@
 #endif // _STL_VECTOR_H
 #endif // _GLIBCXX_CMATH
 
-#include <algorithm>
-#include <iterator>
 #if defined(_GLIBCXX_ALGORITHM) && defined(_GLIBCXX_ITERATOR)
 	// utility for sort algorithm.
 	template<class RandomAccessIterator, class Predicate = std::less<class std::iterator_traits<RandomAccessIterator>::value_type>>
